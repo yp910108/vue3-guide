@@ -3,9 +3,9 @@ sidebar: false
 ---
 
 <script setup lang="ts">
-  import { useRouter } from 'vitepress'
+  import { useRouter, withBase } from 'vitepress'
 
   const router = useRouter()
 
-  router.go('/prepare/env')
+  router.go(withBase('/prepare/env'))
 </script>
