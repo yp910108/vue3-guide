@@ -1,0 +1,21 @@
+{
+  "name": "vue3-guide",
+  "version": "1.0.0",
+  "description": "Vue3 基础入门",
+  "scripts": {
+    "docs:dev": "vitepress dev",
+    "docs:build": "vitepress build",
+    "docs:preview": "vitepress preview"
+  },
+  "keywords": [
+    "vue3",
+    "guide"
+  ],
+  "author": "hollysys",
+  "license": "MIT",
+  "devDependencies": {
+    "prettier": "3.2.5",
+    "sass": "1.72.0",
+    "vitepress": "1.0.0-rc.45"
+  }
+}

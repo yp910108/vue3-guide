@@ -1,0 +1,74 @@
+:root {
+  --vp-c-brand-1: #1890ff;
+
+  --vp-c-brand-2: #40a9ff;
+
+  --vp-custom-block-tip-bg: rgba(24, 144, 255, 0.1);
+
+  --vp-code-color: var(--vp-c-text-2);
+}
+
+.dark {
+  --vp-custom-block-tip-bg: rgba(24, 144, 255, 0.15);
+}
+
+.custom-block.tip code {
+  color: var(--vp-code-color);
+}
+
+:not(pre) > code {
+  white-space: nowrap;
+}
+
+.demo {
+  margin-bottom: 1.2em;
+  padding: 22px 24px;
+  border-radius: 8px;
+  box-shadow: var(--vp-shadow-2);
+  transition: background-color 0.5s ease;
+  h1 {
+    margin: 10px 0 0;
+  }
+  p {
+    margin: 0;
+  }
+  input,
+  textarea,
+  select {
+    border: 1px solid var(--vp-c-border);
+    border-radius: 4px;
+    padding: 0.2em 0.6em;
+    margin-top: 10px;
+    background: transparent;
+    transition: background-color 0.5s;
+    &:focus {
+      outline: 1px solid blue;
+    }
+  }
+  input[type]:focus {
+    outline: none;
+  }
+
+  select {
+    -webkit-appearance: listbox;
+    &[multiple] {
+      width: 100px;
+    }
+  }
+  button {
+    padding: 5px 12px;
+    border: 1px solid var(--vp-c-border);
+    border-radius: 8px;
+    font-size: 0.9em;
+    font-weight: 600;
+    background-color: var(--vp-c-bg-alt);
+    transition: background-color 0.5s;
+    + button {
+      margin-left: 1em;
+    }
+  }
+}
+
+.dark .demo {
+  background-color: var(--vp-code-block-bg);
+}
