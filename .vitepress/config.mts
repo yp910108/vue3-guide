@@ -26,7 +26,8 @@ export default defineConfig({
           { text: '列表渲染', link: '/vue/list' },
           { text: '事件处理', link: '/vue/event' },
           { text: '表单输入绑定', link: '/vue/forms' },
-          { text: '侦听器', link: '/vue/watchers' }
+          { text: '侦听器', link: '/vue/watchers' },
+          { text: '组件基础', link: '/vue/component-basics' }
         ]
       }
     ],

@@ -1,8 +1,8 @@
 <script setup>
-import MethodHandlers from './event-demos/method-handlers.vue'
-import InlineHandlers from './event-demos/inline-handlers.vue'
-import CallingMethodsInInlineHandlers from './event-demos/calling-methods-in-inline-handlers.vue'
-import AccessingEventArgumentInInlineHandlers from './event-demos/accessing-event-argument-in-inline-handlers.vue'
+import MethodHandlers from './event-demos/MethodHandlers.vue'
+import InlineHandlers from './event-demos/InlineHandlers.vue'
+import CallingMethods from './event-demos/CallingMethods.vue'
+import AccessingArgument from './event-demos/AccessingArgument.vue'
 </script>
 
 # 事件处理
@@ -83,7 +83,7 @@ const say = (message) => {
 </script>
 ```
 
-<calling-methods-in-inline-handlers />
+<CallingMethods />
 
 ## 在内联事件处理器中访问事件参数
 
@@ -114,4 +114,4 @@ const warn = (message, event) => {
 </script>
 ```
 
-<accessing-event-argument-in-inline-handlers />
+<AccessingArgument />
