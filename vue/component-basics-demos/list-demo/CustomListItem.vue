@@ -12,14 +12,13 @@
   </li>
 </template>
 
-<script>
-export default {
-  props: ['item'],
-  methods: {
-    handleItemClick() {
-      this.$emit('item-click', this.item)
-    }
-  }
+<script setup>
+const props = defineProps(['item'])
+
+const emit = defineEmits(['item-click'])
+
+const handleItemClick = () => {
+  emit('item-click', props.item)
 }
 </script>
 

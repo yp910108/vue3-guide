@@ -27,7 +27,16 @@ export default defineConfig({
           { text: '事件处理', link: '/vue/event' },
           { text: '表单输入绑定', link: '/vue/forms' },
           { text: '侦听器', link: '/vue/watchers' },
-          { text: '组件基础', link: '/vue/component-basics' }
+          { text: '组件基础', link: '/vue/component-basics' },
+          { text: '动态组件', link: '/vue/dynamic-components' },
+          { text: '模板引用', link: '/vue/template-refs' }
+        ]
+      },
+      {
+        text: '内置组件',
+        items: [
+          { text: 'KeepAlive', link: '/built-ins/keep-alive' },
+          { text: 'Teleport', link: '/built-ins/teleport' }
         ]
       }
     ],

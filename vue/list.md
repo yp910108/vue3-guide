@@ -8,7 +8,27 @@
 为了给 Vue 一个提示，以便它可以跟踪每个节点的标识，从而重用和重新排序现有的元素，你需要为每个元素对应的块提供一个唯一的 `key` attribute。
 :::
 
-```vue
+::: code-group
+
+```vue [选项式]
+<template>
+  <li v-for="(item, index) in items" :key="index">
+    {{ index }} - {{ item.message }}
+  </li>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      items: [{ message: 'Foo' }, { message: 'Bar' }]
+    }
+  }
+}
+</script>
+```
+
+```vue [组合式]
 <template>
   <li v-for="(item, index) in items" :key="index">
     {{ index }} - {{ item.message }}
@@ -22,6 +42,8 @@ const items = ref([{ message: 'Foo' }, { message: 'Bar' }])
 </script>
 ```
 
+:::
+
 <div class="demo">
   <li v-for="(item, index) in items">{{ index }} - {{ item.message }}</li>
 </div>
@@ -34,23 +56,41 @@ const items = ref([{ message: 'Foo' }, { message: 'Bar' }])
 
 也可以使用 `of` 作为分隔符来替代 `in`，这更接近 JavaScript 的迭代器语法：
 
-```vue
-<template>
-  <div v-for="(item, index) of items" :key="index"></div>
-</template>
-
-<script setup>
-import { ref } from 'vue'
-
-const items = ref([{ message: 'Foo' }, { message: 'Bar' }])
-</script>
+```vue-html
+<div v-for="(item, index) of items" :key="index"></div>
 ```
 
 ## `v-for` 与对象
 
 可以使用 `v-for` 来遍历一个对象的所有属性。遍历的顺序会基于对该对象调用 `Object.keys()` 的返回值来决定：
 
-```vue
+::: code-group
+
+```vue [选项式]
+<template>
+  <ul>
+    <li v-for="(value, key, index) in myObject" :key="key">
+      {{ index }}. {{ key }}: {{ value }}
+    </li>
+  </ul>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      myObject: {
+        title: 'How to do lists in Vue',
+        author: 'Jane Doe',
+        publishedAt: '2016-04-10'
+      }
+    }
+  }
+}
+</script>
+```
+
+```vue [组合式]
 <template>
   <ul>
     <li v-for="(value, key, index) in myObject" :key="key">
@@ -70,14 +110,14 @@ const myObject = ref({
 </script>
 ```
 
+:::
+
 ## 在 `v-for` 里使用范围值
 
 `v-for` 可以直接接受一个整数值。在这种用例中，会将该模板基于 `1...n` 的取值范围重复多次。
 
-```vue
-<template>
-  <span v-for="n in 10" :key="n">{{ n }}</span>
-</template>
+```vue-html
+<span v-for="n in 10" :key="n">{{ n }}</span>
 ```
 
 注意此处 `n` 的初值是从 `1` 开始而非 `0`。
@@ -86,21 +126,13 @@ const myObject = ref({
 
 与模板上的 `v-if` 类似，你也可以在 `<template>` 标签上使用 `v-for` 来渲染一个包含多个元素的块。例如：
 
-```vue
-<template>
-  <ul>
-    <template v-for="(item, index) in items" :key="index">
-      <li>{{ item.message }}</li>
-      <li class="divider" role="presentation"></li>
-    </template>
-  </ul>
-</template>
-
-<script setup>
-import { ref } from 'vue'
-
-const items = ref([{ message: 'Foo' }, { message: 'Bar' }])
-</script>
+```vue-html
+<ul>
+  <template v-for="(item, index) in items" :key="index">
+    <li>{{ item.message }}</li>
+    <li class="divider" role="presentation"></li>
+  </template>
+</ul>
 ```
 
 ## `v-for` 与 `v-if`
@@ -111,25 +143,21 @@ const items = ref([{ message: 'Foo' }, { message: 'Bar' }])
 
 当它们同时存在于一个节点上时，`v-if` 比 `v-for` 的优先级更高。这意味着 `v-if` 的条件将无法访问到 `v-for` 作用域内定义的变量别名：
 
-```vue
+```vue-html
 <!--
  这会抛出一个错误，因为属性 todo 此时没有在该实例上定义
 -->
-<template>
-  <li v-for="todo in todos" v-if="!todo.isComplete">
-    {{ todo.name }}
-  </li>
-</template>
+<li v-for="todo in todos" v-if="!todo.isComplete">
+  {{ todo.name }}
+</li>
 ```
 
 在外新包装一层 `<template>` 再在其上使用 `v-for` 可以解决这个问题 (这也更加明显易读)：
 
-```vue
-<template>
-  <template v-for="todo in todos">
-    <li v-if="!todo.isComplete">
-      {{ todo.name }}
-    </li>
-  </template>
+```vue-html
+<template v-for="todo in todos">
+  <li v-if="!todo.isComplete">
+    {{ todo.name }}
+  </li>
 </template>
 ```

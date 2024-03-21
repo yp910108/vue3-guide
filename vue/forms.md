@@ -11,7 +11,7 @@ const checked = ref(false)
 
 const checkedNames = ref([])
 
-const picked = ref('')
+const picked = ref('One')
 
 const selected = ref('')
 
@@ -22,7 +22,30 @@ const multipleSelected = ref([])
 
 在前端处理表单时，我们常常需要将表单输入框的内容同步给 JavaScript 中相应的变量。手动连接值绑定和更改事件监听器可能会很麻烦：
 
-```vue
+::: code-group
+
+```vue [选项式]
+<template>
+  <p>Text is: {{ text }}</p>
+  <input
+    :value="text"
+    placeholder="edit me"
+    @input="(event) => (text = event.target.value)"
+  />
+</template>
+
+<script setup>
+export default {
+  data() {
+    return {
+      text: ''
+    }
+  }
+}
+</script>
+```
+
+```vue [组合式]
 <template>
   <p>Text is: {{ text }}</p>
   <input
@@ -39,6 +62,8 @@ const text = ref('')
 </script>
 ```
 
+:::
+
 <div class="demo">
   <p>Text is: {{ text }}</p>
   <input :value="text" placeholder="edit me" @input="(event) => (text = event.target.value)" />
@@ -46,7 +71,26 @@ const text = ref('')
 
 `v-model` 指令帮我们简化了这一步骤：
 
-```vue
+::: code-group
+
+```vue [选项式]
+<template>
+  <p>Text is: {{ text }}</p>
+  <input v-model="text" placeholder="edit me" />
+</template>
+
+<script setup>
+export default {
+  data() {
+    return {
+      text: ''
+    }
+  }
+}
+</script>
+```
+
+```vue [组合式]
 <template>
   <p>Text is: {{ text }}</p>
   <input v-model="text" placeholder="edit me" />
@@ -58,6 +102,8 @@ import { ref } from 'vue'
 const text = ref('')
 </script>
 ```
+
+:::
 
 <div class="demo">
   <p>Text is: {{ text }}</p>
@@ -72,7 +118,26 @@ const text = ref('')
 
 ## 文本
 
-```vue
+::: code-group
+
+```vue [选项式]
+<template>
+  <p>Message is: {{ message }}</p>
+  <input v-model="message" placeholder="edit me" />
+</template>
+
+<script setup>
+export default {
+  data() {
+    return {
+      message: ''
+    }
+  }
+}
+</script>
+```
+
+```vue [组合式]
 <template>
   <p>Message is: {{ message }}</p>
   <input v-model="message" placeholder="edit me" />
@@ -85,6 +150,8 @@ const message = ref('')
 </script>
 ```
 
+:::
+
 <div class="demo">
   <p>Message is: {{ message }}</p>
   <input v-model="message" placeholder="edit me" />
@@ -92,7 +159,27 @@ const message = ref('')
 
 ## 多行文本
 
-```vue
+::: code-group
+
+```vue [选项式]
+<template>
+  <span>Multiline message is:</span>
+  <p style="white-space: pre-line;">{{ message }}</p>
+  <textarea v-model="message" placeholder="add multiple lines"></textarea>
+</template>
+
+<script setup>
+export default {
+  data() {
+    return {
+      message: ''
+    }
+  }
+}
+</script>
+```
+
+```vue [组合式]
 <template>
   <span>Multiline message is:</span>
   <p style="white-space: pre-line;">{{ message }}</p>
@@ -105,6 +192,8 @@ import { ref } from 'vue'
 const message = ref('')
 </script>
 ```
+
+:::
 
 <div class="demo">
   <span>Multiline message is:</span>
@@ -116,7 +205,26 @@ const message = ref('')
 
 单一的复选框，绑定布尔类型值：
 
-```vue
+::: code-group
+
+```vue [选项式]
+<template>
+  <input v-model="checked" type="checkbox" />
+  <label for="checkbox">{{ checked }}</label>
+</template>
+
+<script setup>
+export default {
+  data() {
+    return {
+      checked: false
+    }
+  }
+}
+</script>
+```
+
+```vue [组合式]
 <template>
   <input v-model="checked" type="checkbox" />
   <label for="checkbox">{{ checked }}</label>
@@ -129,6 +237,8 @@ const checked = ref(false)
 </script>
 ```
 
+:::
+
 <div class="demo">
   <input v-model="checked" type="checkbox" />
   <label for="checkbox">{{ checked }}</label>
@@ -136,7 +246,33 @@ const checked = ref(false)
 
 我们也可以将多个复选框绑定到同一个数组或[集合](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set)的值：
 
-```vue
+::: code-group
+
+```vue [选项式]
+<template>
+  <div>Checked names: {{ checkedNames }}</div>
+
+  <input type="checkbox" id="jack" value="Jack" v-model="checkedNames" />
+  <label for="jack">Jack</label>
+
+  <input type="checkbox" id="john" value="John" v-model="checkedNames" />
+  <label for="john">John</label>
+
+  <input type="checkbox" id="mike" value="Mike" v-model="checkedNames" />
+</template>
+
+<script setup>
+export default {
+  data() {
+    return {
+      checkedNames: []
+    }
+  }
+}
+</script>
+```
+
+```vue [组合式]
 <template>
   <div>Checked names: {{ checkedNames }}</div>
 
@@ -157,6 +293,8 @@ const checkedNames = ref([])
 </script>
 ```
 
+:::
+
 在这个例子中，`checkedNames` 数组将始终包含所有当前被选中的框的值。
 
 <div class="demo">
@@ -174,7 +312,9 @@ const checkedNames = ref([])
 
 ## 单选按钮
 
-```vue
+::: code-group
+
+```vue [选项式]
 <template>
   <div>Picked: {{ picked }}</div>
 
@@ -186,19 +326,43 @@ const checkedNames = ref([])
 </template>
 
 <script setup>
-import { ref } from 'vue'
-
-const picked = ref('')
+export default {
+  data() {
+    return {
+      picked: ''
+    }
+  }
+}
 </script>
 ```
+
+```vue [组合式]
+<template>
+  <div>Picked: {{ picked }}</div>
+
+  <input v-model="picked" id="one" type="radio" value="One" />
+  <label for="one">One</label>
+
+  <input v-model="picked" id="two" type="radio" value="Two" />
+  <label for="two">Two</label>
+</template>
+
+<script setup>
+import { ref } from 'vue'
+
+const picked = ref('One')
+</script>
+```
+
+:::
 
 <div class="demo">
   <div>Picked: {{ picked }}</div>
 
-  <input type="radio" id="one" value="One" v-model="picked" />
+  <input v-model="picked" id="one" type="radio" value="One" />
   <label for="one">One</label>
 
-  <input type="radio" id="two" value="Two" v-model="picked" />
+  <input v-model="picked" id="two" type="radio" value="Two" />
   <label for="two">Two</label>
 </div>
 
@@ -206,7 +370,32 @@ const picked = ref('')
 
 单个选择器的示例如下：
 
-```vue
+::: code-group
+
+```vue [选项式]
+<template>
+  <div>Selected: {{ selected }}</div>
+
+  <select v-model="selected">
+    <option disabled value="">Please select one</option>
+    <option>A</option>
+    <option>B</option>
+    <option>C</option>
+  </select>
+</template>
+
+<script setup>
+export default {
+  data() {
+    return {
+      selected: ''
+    }
+  }
+}
+</script>
+```
+
+```vue [组合式]
 <template>
   <div>Selected: {{ selected }}</div>
 
@@ -225,6 +414,8 @@ const selected = ref('')
 </script>
 ```
 
+:::
+
 <div class="demo">
   <div>Selected: {{ selected }}</div>
 
@@ -238,7 +429,31 @@ const selected = ref('')
 
 多选 (值绑定到一个数组)：
 
-```vue
+::: code-group
+
+```vue [选项式]
+<template>
+  <div>Selected: {{ selected }}</div>
+
+  <select v-model="selected" multiple>
+    <option>A</option>
+    <option>B</option>
+    <option>C</option>
+  </select>
+</template>
+
+<script setup>
+export default {
+  data() {
+    return {
+      selected: []
+    }
+  }
+}
+</script>
+```
+
+```vue [组合式]
 <template>
   <div>Selected: {{ selected }}</div>
 
@@ -255,6 +470,8 @@ import { ref } from 'vue'
 const selected = ref([])
 </script>
 ```
+
+:::
 
 <div class="demo">
   <div>Selected: {{ multipleSelected }}</div>

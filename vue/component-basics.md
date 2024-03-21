@@ -1,13 +1,13 @@
 <script setup>
-import ListDemo from './component-demos/list-demo/index.vue'
-import ButtonCounter from './component-demos/button-counter/index.vue'
+import ListDemo from './component-basics-demos/list-demo/index.vue'
+import ButtonCounter from './component-basics-demos/button-counter/index.vue'
 </script>
 
 # 组件基础
 
 ## 示例
 
-::: details 点击查看示例代码
+::: details 点击查看示例代码 <Badge type="tip" text="选项式" />
 
 需要先在项目中安装 [sass](https://www.sass.hk/)，执行 `pnpm add sass -D` 。
 
@@ -115,11 +115,155 @@ export default {
 <script>
 export default {
   props: ['item'],
+  emits: ['item-click'],
   methods: {
     handleItemClick() {
       this.$emit('item-click', this.item)
     }
   }
+}
+</script>
+
+<style lang="scss">
+.custom-list-item {
+  position: relative;
+  padding: 10px 20px;
+  border-radius: 3px;
+  transition: all 0.3s;
+  cursor: pointer;
+  &:hover {
+    background-color: #f3f3f5;
+  }
+  &::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 1px;
+    background: #efefef;
+  }
+  &:last-child::after {
+    display: none;
+  }
+  .custom-list-item__header {
+    font-weight: bold;
+    font-size: 16px;
+  }
+  .custom-list-item__content {
+    margin: 10px 0;
+    font-size: 14px;
+  }
+  .custom-list-item__footer {
+    font-size: 14px;
+  }
+}
+</style>
+```
+
+:::
+
+::: details 点击查看示例代码 <Badge type="tip" text="组合式" />
+
+需要先在项目中安装 [sass](https://www.sass.hk/)，执行 `pnpm add sass -D` 。
+
+::: code-group
+
+```vue [App.vue]
+<template>
+  <CustomList>
+    <CustomListItem
+      v-for="item of list"
+      :key="item.id"
+      :item="item"
+      @item-click="handleItemClick"
+    >
+      <template #footer>
+        官网：<span style="color: #1677ff">{{ item.href }}</span>
+      </template>
+    </CustomListItem>
+  </CustomList>
+</template>
+
+<script setup>
+import { ref } from 'vue'
+import CustomList from './components/CustomList.vue'
+import CustomListItem from './components/CustomListItem.vue'
+
+const list = ref([
+  {
+    id: 1,
+    title: 'Vue',
+    content:
+      'Vue (发音为 /vjuː/，类似 view) 是一款用于构建用户界面的 JavaScript 框架。它基于标准 HTML、CSS 和 JavaScript 构建，并提供了一套声明式的、组件化的编程模型，帮助你高效地开发用户界面。无论是简单还是复杂的界面，Vue 都可以胜任。',
+    href: 'https://cn.vuejs.org'
+  },
+  {
+    id: 3,
+    title: 'Ant Design of Vue',
+    content: '这里是 Ant Design 的 Vue 实现，开发和服务于企业级后台产品。',
+    href: 'https://www.antdv.com/docs/vue/introduce-cn'
+  },
+  {
+    id: 2,
+    title: 'Vue Router',
+    content:
+      'Vue Router 是 Vue.js 的官方路由。它与 Vue.js 核心深度集成，让用 Vue.js 构建单页应用变得轻而易举。',
+    href: 'https://router.vuejs.org/zh/'
+  },
+  {
+    id: 2,
+    title: 'Vuex',
+    content:
+      'Vuex 是一个专为 Vue.js 应用程序开发的状态管理模式 + 库。它采用集中式存储管理应用的所有组件的状态，并以相应的规则保证状态以一种可预测的方式发生变化。',
+    href: 'https://vuex.vuejs.org/zh/'
+  }
+])
+
+const handleItemClick = (item) => {
+  window.open(item.href)
+}
+</script>
+```
+
+```vue [CustomList.vue]
+<template>
+  <ul class="custom-list">
+    <slot></slot>
+  </ul>
+</template>
+
+<style lang="scss">
+.custom-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+</style>
+```
+
+```vue [CustomListItem.vue]
+<template>
+  <li class="custom-list-item" @click="handleItemClick(item)">
+    <span class="custom-list-item__header">
+      <slot name="header">{{ item.title }}</slot>
+    </span>
+    <div class="custom-list-item__content">
+      <slot>{{ item.content }}</slot>
+    </div>
+    <div class="custom-list-item__footer">
+      <slot name="footer"></slot>
+    </div>
+  </li>
+</template>
+
+<script setup>
+const props = defineProps(['item'])
+
+const emit = defineEmits(['item-click'])
+
+const handleItemClick = () => {
+  emit('item-click', props.item)
 }
 </script>
 
@@ -168,7 +312,9 @@ export default {
 
 当使用构建步骤时，我们一般会将 Vue 组件定义在一个单独的 `.vue` 文件中，这被叫做单文件组件 (简称 SFC)。假设我们把下面定义的组件放在了一个叫做 `ButtonCounter.vue` 的文件中，这个组件将会以默认导出的形式被暴露给外部：
 
-```vue
+::: code-group
+
+```vue [选项式]
 <template>
   <button @click="count++">You clicked me {{ count }} times.</button>
 </template>
@@ -183,6 +329,20 @@ export default {
 }
 </script>
 ```
+
+```vue [组合式]
+<template>
+  <button @click="count++">You clicked me {{ count }} times.</button>
+</template>
+
+<script setup>
+import { ref } from 'vue'
+
+const count = ref(0)
+</script>
+```
+
+:::
 
 ## 使用组件
 

@@ -21,7 +21,26 @@ import AccessingArgument from './event-demos/AccessingArgument.vue'
 
 内联事件处理器通常用于简单场景，例如：
 
-```vue
+::: code-group
+
+```vue [选项式]
+<template>
+  <button @click="count++">Add 1</button>
+  <p>Count is: {{ count }}</p>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      count: 0
+    }
+  }
+}
+</script>
+```
+
+```vue [组合式]
 <template>
   <button @click="count++">Add 1</button>
   <p>Count is: {{ count }}</p>
@@ -34,6 +53,8 @@ const count = ref(0)
 </script>
 ```
 
+:::
+
 <inline-handlers />
 
 ## 方法事件处理器
@@ -42,7 +63,29 @@ const count = ref(0)
 
 举例来说：
 
-```vue
+::: code-group
+
+```vue [选项式]
+<template>
+  <button @click="greet">Greet</button>
+</template>
+
+<script>
+export default {
+  methods: {
+    greet(event) {
+      alert(`Hello ${name.value}!`)
+      // `event` 是 DOM 原生事件
+      if (event) {
+        alert(event.target.tagName)
+      }
+    }
+  }
+}
+</script>
+```
+
+```vue [组合式]
 <template>
   <button @click="greet">Greet</button>
 </template>
@@ -62,6 +105,8 @@ const greet = (event) => {
 </script>
 ```
 
+:::
+
 <method-handlers />
 
 方法事件处理器会自动接收原生 DOM 事件并触发执行。在上面的例子中，我们能够通过被触发事件的 `event.target.tagName` 访问到该 DOM 元素。
@@ -70,7 +115,26 @@ const greet = (event) => {
 
 除了直接绑定方法名，还可以在内联事件处理器中调用方法。这允许我们向方法传入自定义参数以代替原生事件：
 
-```vue
+::: code-group
+
+```vue [选项式]
+<template>
+  <button @click="say('hello')">Say hello</button>
+  <button @click="say('bye')">Say bye</button>
+</template>
+
+<script>
+export default {
+  methods: {
+    say(message) {
+      alert(message)
+    }
+  }
+}
+</script>
+```
+
+```vue [组合式]
 <template>
   <button @click="say('hello')">Say hello</button>
   <button @click="say('bye')">Say bye</button>
@@ -83,14 +147,47 @@ const say = (message) => {
 </script>
 ```
 
+:::
+
 <CallingMethods />
 
 ## 在内联事件处理器中访问事件参数
 
 有时我们需要在内联事件处理器中访问原生 DOM 事件。可以向该处理器方法传入一个特殊的 `$event` 变量，或者使用内联箭头函数：
 
+::: code-group
+
 <!-- prettier-ignore -->
-```vue
+```vue [选项式]
+<template>
+  <!-- 使用特殊的 $event 变量 -->
+  <button @click="warn('Form cannot be submitted yet.', $event)">
+    Submit
+  </button>
+
+  <!-- 使用内联箭头函数 -->
+  <button @click="(event) => warn('Form cannot be submitted yet.', event)">
+    Submit
+  </button>
+</template>
+
+<script>
+export default {
+  methods: {
+    warn(message, event) {
+      // 这里可以访问原生事件
+      if (event) {
+        event.preventDefault()
+      }
+      alert(message)
+    }
+  }
+}
+</script>
+```
+
+<!-- prettier-ignore -->
+```vue [组合式]
 <template>
   <!-- 使用特殊的 $event 变量 -->
   <button @click="warn('Form cannot be submitted yet.', $event)">
@@ -113,5 +210,7 @@ const warn = (message, event) => {
 }
 </script>
 ```
+
+:::
 
 <AccessingArgument />
